@@ -60,7 +60,8 @@ static dev_t wdt_devno;
 static struct cdev *wdt_cdev;
 
 #ifdef CONFIG_LOCAL_WDT
-void mpcore_wdt_restart_fiq();
+void mpcore_wdt_restart_fiq(void);
+
 int mpcore_wk_wdt_config(enum wk_wdt_type type, enum wk_wdt_mode mode, int timeout_val);
 void mpcore_wdt_restart(enum wk_wdt_type type);
 void mpcore_wk_wdt_stop(void);
@@ -886,6 +887,61 @@ static void mtk_wdt_shutdown(struct platform_device *dev)
 #endif	
 }
 
+void mtk_wdt_suspend(void)
+{
+#ifdef 	CONFIG_LOCAL_WDT
+	int type = WK_WDT_EXT_TYPE;
+#endif	
+	
+	//mtk_wdt_ModeSelection(KAL_FALSE, KAL_FALSE, KAL_FALSE);
+	// en debug, dis irq, dis ext, low pol, dis wdt
+	mtk_wdt_mode_config(TRUE, FALSE, FALSE, FALSE, FALSE);
+#ifdef 	CONFIG_LOCAL_WDT	
+	//disable locat wdt
+	mpcore_wk_wdt_stop();
+	mtk_wdt_restart(type);
+	
+#else
+	mtk_wdt_restart();
+#endif	
+
+	aee_sram_printk("[WDT] suspend\n");
+	printk("[WDT] suspend\n");
+}
+
+void mtk_wdt_resume(void)
+{
+#ifdef 	CONFIG_LOCAL_WDT	
+	int type = WK_WDT_EXT_TYPE;
+#endif	
+	
+	if ( g_wdt_enable == 1 ) 
+	{
+		mtk_wdt_set_time_out_value(g_last_time_time_out_value);
+		
+		if (g_wdt_mode == WDT_EXP_MODE){
+			//mtk_wdt_ModeSelection(KAL_TRUE, KAL_FALSE, KAL_TRUE);
+			// en debug, en irq, dis ext, low pol, en wdt
+			mtk_wdt_mode_config(TRUE, TRUE, FALSE, FALSE, TRUE);
+		}else{
+			//mtk_wdt_ModeSelection(KAL_TRUE, KAL_TRUE, KAL_FALSE);
+			// en debug, dis irq, dis ext, low pol, en wdt
+			mtk_wdt_mode_config(TRUE, FALSE, FALSE, FALSE, TRUE);
+		}
+#ifdef 	CONFIG_LOCAL_WDT
+		// resume local wdt
+		mpcore_wdt_restart(WK_WDT_LOC_TYPE);
+		mtk_wdt_restart(type);
+#else
+		mtk_wdt_restart();
+#endif		
+	}
+
+	aee_sram_printk("[WDT] resume(%d)\n", g_wdt_enable);
+	printk("[WDT] resume(%d)\n", g_wdt_enable);
+}
+
+#if 0
 static int mtk_wdt_suspend(struct platform_device *dev, pm_message_t state)
 {
 #ifdef 	CONFIG_LOCAL_WDT
@@ -939,6 +995,7 @@ static int mtk_wdt_resume(struct platform_device *dev)
 	
 	return 0;
 }
+#endif
 
 static struct platform_driver mtk_wdt_driver =
 {
@@ -948,8 +1005,8 @@ static struct platform_driver mtk_wdt_driver =
 	.probe	= mtk_wdt_probe,
 	.remove	= mtk_wdt_remove,
 	.shutdown	= mtk_wdt_shutdown,
-	.suspend	= mtk_wdt_suspend,
-	.resume	= mtk_wdt_resume,
+//	.suspend	= mtk_wdt_suspend,
+//	.resume	= mtk_wdt_resume,
 };
 
 struct platform_device mtk_device_wdt = {

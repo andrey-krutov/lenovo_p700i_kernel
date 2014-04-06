@@ -489,7 +489,7 @@ typedef struct
     unsigned int  (*esd_recover)(void);
 
 /////////////////////////////////////////////////
-
+    unsigned int (*set_cabcmode)(unsigned int mode);
 } LCM_DRIVER;
 
 

@@ -81,29 +81,29 @@ void aee_stop_nested_panic(struct pt_regs *regs)
 
 	aee_sram_printk("Nested panic\n");
 
-	aee_sram_printk("Log for the previous panic:\n");
-	aee_sram_printk("pc: %08lx lr: %08lx psr: %08lx\n",
-			((struct pt_regs *)thread->regs_on_excp)->ARM_pc, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_lr, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_cpsr);
-	aee_sram_printk("sp: %08lx ip: %08lx fp: %08lx\n",
-			((struct pt_regs *)thread->regs_on_excp)->ARM_sp, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_ip, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_fp);
-	aee_sram_printk("r10: %08lx r9: %08lx r8: %08lx\n",
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r10, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r9, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r8);
-	aee_sram_printk("r7: %08lx r6: %08lx r5: %08lx r4: %08lx\n",
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r7, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r6, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r5, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r4);
-	aee_sram_printk("r3: %08lx r2: %08lx r1: %08lx r0: %08lx\n",
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r3, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r2, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r1, 
-			((struct pt_regs *)thread->regs_on_excp)->ARM_r0);
+//	aee_sram_printk("Log for the previous panic:\n");
+//	aee_sram_printk("pc: %08lx lr: %08lx psr: %08lx\n",
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_pc, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_lr, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_cpsr);
+//	aee_sram_printk("sp: %08lx ip: %08lx fp: %08lx\n",
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_sp, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_ip, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_fp);
+//	aee_sram_printk("r10: %08lx r9: %08lx r8: %08lx\n",
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r10, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r9, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r8);
+//	aee_sram_printk("r7: %08lx r6: %08lx r5: %08lx r4: %08lx\n",
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r7, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r6, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r5, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r4);
+//	aee_sram_printk("r3: %08lx r2: %08lx r1: %08lx r0: %08lx\n",
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r3, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r2, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r1, 
+//			((struct pt_regs *)thread->regs_on_excp)->ARM_r0);
 
 	aee_sram_printk("Log for the current panic:\n");
 	aee_sram_printk("pc: %08lx lr: %08lx psr: %08lx\n",
@@ -131,8 +131,8 @@ void aee_stop_nested_panic(struct pt_regs *regs)
 
 	printk("Nested panic\n");
 
-	printk("Log for the previous panic:\n");
-	__show_regs((struct pt_regs *)thread->regs_on_excp);
+//	printk("Log for the previous panic:\n");
+//	__show_regs((struct pt_regs *)thread->regs_on_excp);
 
 	printk("Log for the current panic:\n");
 	__show_regs(regs);

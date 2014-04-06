@@ -3,13 +3,16 @@
 
 enum wk_wdt_mode {
 	WK_WDT_NORMAL_MODE,
-	WK_WDT_EXP_MODE
+	WK_WDT_EXP_MODE,
+
 };
 
 #ifdef CONFIG_LOCAL_WDT
 enum wk_wdt_type {
 	WK_WDT_LOC_TYPE,
-	WK_WDT_EXT_TYPE
+	WK_WDT_EXT_TYPE,
+	WK_WDT_LOC_TYPE_NOLOCK,
+	WK_WDT_EXT_TYPE_NOLOCK
 };
 
 struct wk_wdt {
